@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -113,4 +114,973 @@
 
     .stat {
       background: var(--surface-2);
-      border: 1px solid var
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .stat-label { font-size: 0.75rem; color: var(--muted); }
+    .stat-value { font-size: 1.05rem; font-weight: 700; margin-top: 2px; }
+    .stat-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+    .progress-wrap {
+      background: var(--surface-2);
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.25s ease;
+    }
+
+    textarea, input, select {
+      width: 100%;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    textarea { min-height: 88px; resize: vertical; }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .field { margin-bottom: 10px; }
+
+    .row-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-primary { background: var(--accent); color: #052e16; flex: 1; min-width: 150px; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+    .btn-mic.listening { background: var(--rose); color: #fff; }
+    .btn-danger { background: rgba(244, 63, 94, 0.16); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.35); }
+    .btn-sm { padding: 6px 10px; font-size: 0.8rem; border-radius: 8px; }
+
+    .photo-preview {
+      margin-top: 10px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface-2);
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .photo-preview img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .ai-output {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 12px;
+      white-space: pre-wrap;
+      font-size: 0.9rem;
+    }
+
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.55);
+    }
+
+    .list-item:last-child { border-bottom: none; }
+    .item-main { flex: 1; }
+    .item-title { font-weight: 600; font-size: 0.92rem; }
+    .item-meta { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .checked-text { text-decoration: line-through; color: var(--muted); }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 6px 4px;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 6px 2px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .nav-btn.active { color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(2, 6, 23, 0.78);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    .status-banner {
+      font-size: 0.8rem;
+      color: var(--amber);
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span>NutriFlow AI</span>
+      <span class="brand-badge">ALLTAG</span>
+    </div>
+    <button class="icon-btn" id="openSettingsBtn" type="button">⚙️ API & Ziel</button>
+  </header>
+
+  <main>
+    <div class="status-banner" id="apiNotice" style="display:none;">
+      Hinweis: Noch kein Gemini API-Key hinterlegt. Tippe oben rechts auf <strong>⚙️ API & Ziel</strong>, um deinen Key zu speichern.
+    </div>
+
+    <!-- TAB 1: HEUTE / ZAUBER-INPUT -->
+    <section class="tab-panel active" id="tab-today">
+      <div class="card">
+        <div class="card-title">
+          <span>Tagesbilanz</span>
+          <span class="pill" id="todayDateLabel"></span>
+        </div>
+        <div class="grid-4">
+          <div class="stat">
+            <div class="stat-label">Kalorien</div>
+            <div class="stat-value" id="statKcal">0 / 2200</div>
+            <div class="stat-sub" id="statKcalSub">2200 kcal offen</div>
+            <div class="progress-wrap"><div class="progress-bar" id="barKcal"></div></div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Eiweiß</div>
+            <div class="stat-value" id="statProtein">0 / 150 g</div>
+            <div class="stat-sub" id="statProteinSub">150 g offen</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Carbs / Fett</div>
+            <div class="stat-value" id="statCarbsFat">0g / 0g</div>
+            <div class="stat-sub" id="statCarbsFatSub">Ziel: 220g / 65g</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Budget übrig</div>
+            <div class="stat-value" id="statBudget">0,00 €</div>
+            <div class="stat-sub" id="statBudgetSub">Ausgaben: 0,00 €</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Sprache, Foto & Zauber-Assistent</span>
+          <span class="pill">Grob-Schätzung erlaubt</span>
+        </div>
+        <div class="field">
+          <label for="promptInput">Sprich los oder tippe, was du gegessen hast, was da ist oder wo du einkaufst</label>
+          <textarea id="promptInput" placeholder="Beispiele:
+• 'Meine Frau kocht Spaghetti Bolognese, wir teilen uns den Topf – schätze meine Portion grob ein und trag sie ein.'
+• 'Ich habe 22 € Budget, gehe gleich zu Aldi – was soll ich holen und heute essen?'
+• Mach ein Foto vom Kühlschrank oder Einkauf und frag, was daraus geht."></textarea>
+        </div>
+
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" />
+
+        <div class="photo-preview" id="photoPreview">
+          <img id="photoThumb" alt="Vorschau" />
+          <div style="flex:1;">
+            <div style="font-size:0.85rem;font-weight:600;">Foto angehängt</div>
+            <div style="font-size:0.75rem;color:var(--muted);">Wird bei der nächsten KI-Anfrage mitgesendet</div>
+          </div>
+          <button class="btn btn-danger btn-sm" id="clearPhotoBtn" type="button">Entfernen</button>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-secondary btn-mic" id="micBtn" type="button">🎤 Einsprechen</button>
+          <button class="btn btn-secondary" id="photoBtn" type="button">📷 Foto</button>
+          <button class="btn btn-primary" id="askAiBtn" type="button">✨ Mit Gemini zaubern</button>
+        </div>
+
+        <div class="ai-output" id="aiOutput" style="display:none;"></div>
+        <div class="row-actions" id="aiApplyBar" style="display:none;">
+          <button class="btn btn-secondary btn-sm" id="applyMealsBtn" type="button">+ Mahlzeiten übernehmen</button>
+          <button class="btn btn-secondary btn-sm" id="applyShoppingBtn" type="button">+ Einkaufsliste übernehmen</button>
+          <button class="btn btn-secondary btn-sm" id="applyPantryBtn" type="button">+ Vorrat übernehmen</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Schnelle Schätzung / Eintrag</span>
+          <button class="btn btn-secondary btn-sm" id="addQuickMealBtn" type="button">+ Hinzufügen</button>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="quickMealName">Mahlzeit (ungefähr reicht)</label>
+            <input type="text" id="quickMealName" placeholder="z. B. Spaghetti Bolognese (ca. Portion)" />
+          </div>
+          <div class="field">
+            <label for="quickMealKcal">Kalorien (ca. kcal)</label>
+            <input type="number" id="quickMealKcal" placeholder="z. B. 650" />
+          </div>
+        </div>
+        <div class="grid-4">
+          <div class="field">
+            <label for="quickProtein">Eiweiß (g)</label>
+            <input type="number" id="quickProtein" placeholder="32" />
+          </div>
+          <div class="field">
+            <label for="quickCarbs">Carbs (g)</label>
+            <input type="number" id="quickCarbs" placeholder="72" />
+          </div>
+          <div class="field">
+            <label for="quickFat">Fett (g)</label>
+            <input type="number" id="quickFat" placeholder="24" />
+          </div>
+          <div class="field">
+            <label for="quickCost">Kosten (€)</label>
+            <input type="number" step="0.01" id="quickCost" placeholder="0.00" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Heutige Einträge</span>
+          <span class="pill" id="mealCountBadge">0 Einträge</span>
+        </div>
+        <div id="mealsList"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: EINKAUF & BUDGET -->
+    <section class="tab-panel" id="tab-shop">
+      <div class="card">
+        <div class="card-title"><span>Einkaufs- & Tagesbudget</span></div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="budgetInput">Verfügbares Budget (€)</label>
+            <input type="number" step="0.5" id="budgetInput" placeholder="z. B. 25" />
+          </div>
+          <div class="field">
+            <label for="storeInput">Bevorzugter Markt</label>
+            <input type="text" id="storeInput" placeholder="z. B. Aldi, Lidl, Rewe" />
+          </div>
+        </div>
+        <div class="row-actions">
+          <button class="btn btn-secondary btn-sm" id="saveBudgetBtn" type="button">Budget speichern</button>
+          <button class="btn btn-secondary btn-sm" id="clearCheckedShopBtn" type="button">Erledigte löschen</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Einkaufsliste zum Abhaken</span></div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="shopItemName">Artikel</label>
+            <input type="text" id="shopItemName" placeholder="z. B. Skyr, Haferflocken, Tomaten" />
+          </div>
+          <div class="field">
+            <label for="shopItemPrice">Geschätzter Preis (€)</label>
+            <input type="number" step="0.05" id="shopItemPrice" placeholder="1.49" />
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="addShopItemBtn" type="button">+ Artikel zur Liste</button>
+        <div id="shoppingList" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Vorrat („Was ist da?“)</span></div>
+        <div class="row-actions" style="margin-top:0;margin-bottom:10px;">
+          <input type="text" id="pantryInput" placeholder="z. B. Eier, Reis, TK-Brokkoli, Käse..." style="flex:1;" />
+          <button class="btn btn-secondary btn-sm" id="addPantryBtn" type="button">+ Vorrat</button>
+        </div>
+        <div id="pantryList"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: GEWICHT & BERATUNG -->
+    <section class="tab-panel" id="tab-weight">
+      <div class="card">
+        <div class="card-title"><span>Gewichtstracking & Trend</span></div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="weightInput">Aktuelles Gewicht (kg)</label>
+            <input type="number" step="0.1" id="weightInput" placeholder="z. B. 84.5" />
+          </div>
+          <div class="field">
+            <label for="weightNote">Kurze Notiz (optional)</label>
+            <input type="text" id="weightNote" placeholder="z. B. morgens nach dem Aufstehen" />
+          </div>
+        </div>
+        <div class="row-actions">
+          <button class="btn btn-primary" id="saveWeightBtn" type="button">Gewicht eintragen</button>
+          <button class="btn btn-secondary" id="coachBtn" type="button">🧠 KI-Ernährungsberatung</button>
+        </div>
+        <div id="weightSummary" class="item-meta" style="margin-top:10px;"></div>
+        <div id="weightList" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Persönliche Ernährungsberatung</span></div>
+        <div class="ai-output" id="coachOutput">
+          Trage links oben rechts unter „⚙️ API & Ziel“ deine Daten ein oder tippe auf „🧠 KI-Ernährungsberatung“, um eine verständliche Einschätzung zu Kalorien, Makros und Alltagstrends zu erhalten.
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: VERLAUF -->
+    <section class="tab-panel" id="tab-history">
+      <div class="card">
+        <div class="card-title"><span>Verlauf & Tagesübersichten</span></div>
+        <div id="historyList"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-tab="tab-today" type="button">🏠<span>Heute</span></button>
+    <button class="nav-btn" data-tab="tab-shop" type="button">🛒<span>Einkauf</span></button>
+    <button class="nav-btn" data-tab="tab-weight" type="button">⚖️<span>Gewicht</span></button>
+    <button class="nav-btn" data-tab="tab-history" type="button">📅<span>Verlauf</span></button>
+  </nav>
+
+  <!-- SETTINGS MODAL -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-card">
+      <div class="card-title">
+        <span>API-Key, Ziel & Makros</span>
+        <button class="btn btn-secondary btn-sm" id="closeSettingsBtn" type="button">Schließen</button>
+      </div>
+
+      <div class="field">
+        <label for="apiKeyInput">Gemini API-Key (bleibt lokal auf diesem Gerät)</label>
+        <input type="password" id="apiKeyInput" placeholder="AIza..." />
+      </div>
+
+      <div class="field">
+        <label for="modelSelect">Gemini Modell</label>
+        <select id="modelSelect">
+          <option value="gemini-2.5-flash">gemini-2.5-flash (schnell & multimodal)</option>
+          <option value="gemini-2.5-pro">gemini-2.5-pro (ausführliche Beratung)</option>
+        </select>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="goalSelect">Ziel</label>
+          <select id="goalSelect">
+            <option value="Abnehmen (sanftes Defizit)">Abnehmen (sanftes Defizit)</option>
+            <option value="Gewicht halten">Gewicht halten</option>
+            <option value="Muskelaufbau / Rekomposition">Muskelaufbau / Rekomposition</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="targetWeightInput">Zielgewicht (kg)</label>
+          <input type="number" step="0.1" id="targetWeightInput" placeholder="z. B. 78.0" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="ageInput">Alter</label>
+          <input type="number" id="ageInput" placeholder="35" />
+        </div>
+        <div class="field">
+          <label for="heightInput">Größe (cm)</label>
+          <input type="number" id="heightInput" placeholder="180" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="sexSelect">Geschlecht</label>
+          <select id="sexSelect">
+            <option value="männlich">männlich</option>
+            <option value="weiblich">weiblich</option>
+            <option value="divers">divers</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="activitySelect">Alltagsaktivität</label>
+          <select id="activitySelect">
+            <option value="1.35">eher sitzend / leicht aktiv</option>
+            <option value="1.55">mäßig aktiv im Alltag</option>
+            <option value="1.75">sehr aktiv / körperlich</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row-actions" style="margin-top:4px;margin-bottom:10px;">
+        <button class="btn btn-secondary btn-sm" id="calcTargetsBtn" type="button">Kalorien & Makros automatisch berechnen</button>
+      </div>
+
+      <div class="grid-4">
+        <div class="field">
+          <label for="targetKcal">Kalorien</label>
+          <input type="number" id="targetKcal" />
+        </div>
+        <div class="field">
+          <label for="targetProtein">Eiweiß (g)</label>
+          <input type="number" id="targetProtein" />
+        </div>
+        <div class="field">
+          <label for="targetCarbs">Carbs (g)</label>
+          <input type="number" id="targetCarbs" />
+        </div>
+        <div class="field">
+          <label for="targetFat">Fett (g)</label>
+          <input type="number" id="targetFat" />
+        </div>
+      </div>
+
+      <div class="row-actions">
+        <button class="btn btn-primary" id="saveSettingsBtn" type="button">Einstellungen speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "nutriflow_ai_state_v1";
+
+    const defaultState = {
+      apiKey: "",
+      model: "gemini-2.5-flash",
+      profile: {
+        goal: "Abnehmen (sanftes Defizit)",
+        targetWeight: 78,
+        age: 35,
+        height: 180,
+        sex: "männlich",
+        activity: 1.55,
+        targetKcal: 2200,
+        targetProtein: 150,
+        targetCarbs: 220,
+        targetFat: 65
+      },
+      budget: 25,
+      store: "Aldi",
+      days: {},
+      shopping: [],
+      pantry: [],
+      weights: [],
+      coachAdvice: ""
+    };
+
+    function todayKey() {
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return structuredClone(defaultState);
+        const parsed = JSON.parse(raw);
+        return {
+          ...structuredClone(defaultState),
+          ...parsed,
+          profile: { ...structuredClone(defaultState.profile), ...(parsed.profile || {}) }
+        };
+      } catch {
+        return structuredClone(defaultState);
+      }
+    }
+
+    let state = loadState();
+    let attachedPhotoBase64 = null;
+    let attachedPhotoMime = null;
+    let lastAiParsed = null;
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function ensureDay(key = todayKey()) {
+      if (!state.days[key]) {
+        state.days[key] = { meals: [], spent: 0, note: "" };
+      }
+      return state.days[key];
+    }
+
+    function formatEur(num) {
+      return `${Number(num || 0).toFixed(2).replace(".", ",")} €`;
+    }
+
+    function renderAll() {
+      const key = todayKey();
+      const day = ensureDay(key);
+      const p = state.profile;
+
+      document.getElementById("todayDateLabel").textContent = key;
+      document.getElementById("apiNotice").style.display = state.apiKey ? "none" : "block";
+
+      const totals = day.meals.reduce((acc, m) => {
+        acc.kcal += Number(m.kcal || 0);
+        acc.protein += Number(m.protein || 0);
+        acc.carbs += Number(m.carbs || 0);
+        acc.fat += Number(m.fat || 0);
+        acc.cost += Number(m.cost || 0);
+        return acc;
+      }, { kcal: 0, protein: 0, carbs: 0, fat: 0, cost: 0 });
+
+      const kcalLeft = Math.round(p.targetKcal - totals.kcal);
+      const protLeft = Math.round(p.targetProtein - totals.protein);
+      const budgetLeft = Number(state.budget || 0) - totals.cost;
+
+      document.getElementById("statKcal").textContent = `${Math.round(totals.kcal)} / ${p.targetKcal}`;
+      document.getElementById("statKcalSub").textContent = kcalLeft >= 0 ? `${kcalLeft} kcal offen` : `${Math.abs(kcalLeft)} kcal über Ziel`;
+      document.getElementById("barKcal").style.width = `${Math.min(100, Math.max(0, (totals.kcal / Math.max(1, p.targetKcal)) * 100))}%`;
+
+      document.getElementById("statProtein").textContent = `${Math.round(totals.protein)} / ${p.targetProtein} g`;
+      document.getElementById("statProteinSub").textContent = protLeft >= 0 ? `${protLeft} g offen` : `${Math.abs(protLeft)} g über Ziel`;
+
+      document.getElementById("statCarbsFat").textContent = `${Math.round(totals.carbs)}g / ${Math.round(totals.fat)}g`;
+      document.getElementById("statCarbsFatSub").textContent = `Ziel: ${p.targetCarbs}g / ${p.targetFat}g`;
+
+      document.getElementById("statBudget").textContent = formatEur(budgetLeft);
+      document.getElementById("statBudgetSub").textContent = `Ausgaben: ${formatEur(totals.cost)}`;
+
+      document.getElementById("mealCountBadge").textContent = `${day.meals.length} ${day.meals.length === 1 ? "Eintrag" : "Einträge"}`;
+      const mealsEl = document.getElementById("mealsList");
+      if (!day.meals.length) {
+        mealsEl.innerHTML = `<div class="item-meta">Noch nichts eingetragen. Sprich etwas ein, mach ein Foto oder füge grob eine Mahlzeit hinzu.</div>`;
+      } else {
+        mealsEl.innerHTML = day.meals.map((m, idx) => `
+          <div class="list-item">
+            <div class="item-main">
+              <div class="item-title">${escapeHtml(m.name)} ${m.approx ? '<span class="pill">ca.</span>' : ''}</div>
+              <div class="item-meta">${Math.round(m.kcal || 0)} kcal · ${Math.round(m.protein || 0)}g E · ${Math.round(m.carbs || 0)}g K · ${Math.round(m.fat || 0)}g F${m.cost ? ' · ' + formatEur(m.cost) : ''}</div>
+            </div>
+            <button class="btn btn-danger btn-sm" onclick="deleteMeal(${idx})" type="button">✕</button>
+          </div>
+        `).join("");
+      }
+
+      document.getElementById("budgetInput").value = state.budget;
+      document.getElementById("storeInput").value = state.store;
+
+      const shopEl = document.getElementById("shoppingList");
+      const shopSum = state.shopping.reduce((s, item) => s + Number(item.price || 0), 0);
+      if (!state.shopping.length) {
+        shopEl.innerHTML = `<div class="item-meta">Keine Einkaufsartikel vorhanden.</div>`;
+      } else {
+        shopEl.innerHTML = `<div class="item-meta" style="margin-bottom:6px;">Geschätzte Summe: <strong>${formatEur(shopSum)}</strong> (${state.store || "Markt frei"})</div>` +
+          state.shopping.map((item, idx) => `
+            <div class="list-item">
+              <div class="item-main">
+                <label style="display:flex;align-items:center;gap:8px;margin:0;cursor:pointer;">
+                  <input type="checkbox" ${item.checked ? "checked" : ""} onchange="toggleShop(${idx})" style="width:auto;" />
+                  <span class="item-title ${item.checked ? "checked-text" : ""}">${escapeHtml(item.name)}</span>
+                </label>
+                <div class="item-meta">${item.price ? formatEur(item.price) : "Preis offen"}${item.category ? " · " + escapeHtml(item.category) : ""}</div>
+              </div>
+              <button class="btn btn-danger btn-sm" onclick="deleteShop(${idx})" type="button">✕</button>
+            </div>
+          `).join("");
+      }
+
+      const pantryEl = document.getElementById("pantryList");
+      if (!state.pantry.length) {
+        pantryEl.innerHTML = `<div class="item-meta">Noch kein Vorrat hinterlegt.</div>`;
+      } else {
+        pantryEl.innerHTML = state.pantry.map((pItem, idx) => `
+          <div class="list-item">
+            <div class="item-main"><div class="item-title">${escapeHtml(pItem)}</div></div>
+            <button class="btn btn-danger btn-sm" onclick="deletePantry(${idx})" type="button">✕</button>
+          </div>
+        `).join("");
+      }
+
+      const wList = document.getElementById("weightList");
+      const wSummary = document.getElementById("weightSummary");
+      if (!state.weights.length) {
+        wSummary.textContent = "Noch keine Gewichtseinträge vorhanden.";
+        wList.innerHTML = "";
+      } else {
+        const latest = state.weights[0];
+        const diffGoal = (Number(latest.kg) - Number(p.targetWeight || latest.kg)).toFixed(1);
+        wSummary.innerHTML = `Aktuell: <strong>${Number(latest.kg).toFixed(1)} kg</strong> · Ziel: <strong>${Number(p.targetWeight).toFixed(1)} kg</strong> · Differenz: <strong>${diffGoal > 0 ? "+" + diffGoal : diffGoal} kg</strong>`;
+        wList.innerHTML = state.weights.map((w, idx) => `
+          <div class="list-item">
+            <div class="item-main">
+              <div class="item-title">${Number(w.kg).toFixed(1)} kg <span class="pill">${escapeHtml(w.date)}</span></div>
+              ${w.note ? `<div class="item-meta">${escapeHtml(w.note)}</div>` : ""}
+            </div>
+            <button class="btn btn-danger btn-sm" onclick="deleteWeight(${idx})" type="button">✕</button>
+          </div>
+        `).join("");
+      }
+
+      if (state.coachAdvice) {
+        document.getElementById("coachOutput").textContent = state.coachAdvice;
+      }
+
+      const histEl = document.getElementById("historyList");
+      const keys = Object.keys(state.days).sort().reverse();
+      if (!keys.length) {
+        histEl.innerHTML = `<div class="item-meta">Noch keine Tage dokumentiert.</div>`;
+      } else {
+        histEl.innerHTML = keys.map(k => {
+          const d = state.days[k];
+          const sum = (d.meals || []).reduce((a, b) => ({
+            kcal: a.kcal + Number(b.kcal || 0),
+            protein: a.protein + Number(b.protein || 0),
+            cost: a.cost + Number(b.cost || 0)
+          }), { kcal: 0, protein: 0, cost: 0 });
+          return `
+            <div class="list-item">
+              <div class="item-main">
+                <div class="item-title">${k}</div>
+                <div class="item-meta">${(d.meals || []).length} Einträge · ca. ${Math.round(sum.kcal)} kcal · ${Math.round(sum.protein)}g Eiweiß · ${formatEur(sum.cost)}</div>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str || "").replace(/[&<>"']/g, s => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[s]));
+    }
+
+    window.deleteMeal = function(idx) {
+      ensureDay().meals.splice(idx, 1);
+      saveState();
+      renderAll();
+    };
+
+    window.toggleShop = function(idx) {
+      state.shopping[idx].checked = !state.shopping[idx].checked;
+      saveState();
+      renderAll();
+    };
+
+    window.deleteShop = function(idx) {
+      state.shopping.splice(idx, 1);
+      saveState();
+      renderAll();
+    };
+
+    window.deletePantry = function(idx) {
+      state.pantry.splice(idx, 1);
+      saveState();
+      renderAll();
+    };
+
+    window.deleteWeight = function(idx) {
+      state.weights.splice(idx, 1);
+      saveState();
+      renderAll();
+    };
+
+    // Navigation
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    // Quick meal add
+    document.getElementById("addQuickMealBtn").addEventListener("click", () => {
+      const name = document.getElementById("quickMealName").value.trim();
+      const kcal = Number(document.getElementById("quickMealKcal").value || 0);
+      const protein = Number(document.getElementById("quickProtein").value || 0);
+      const carbs = Number(document.getElementById("quickCarbs").value || 0);
+      const fat = Number(document.getElementById("quickFat").value || 0);
+      const cost = Number(document.getElementById("quickCost").value || 0);
+
+      if (!name && !kcal) {
+        alert("Bitte mindestens einen Namen oder Kalorien angeben.");
+        return;
+      }
+
+      ensureDay().meals.push({
+        name: name || "Grobe Mahlzeit",
+        kcal,
+        protein,
+        carbs,
+        fat,
+        cost,
+        approx: true
+      });
+
+      ["quickMealName", "quickMealKcal", "quickProtein", "quickCarbs", "quickFat", "quickCost"].forEach(id => {
+        document.getElementById(id).value = "";
+      });
+
+      saveState();
+      renderAll();
+    });
+
+    // Speech recognition
+    const micBtn = document.getElementById("micBtn");
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isListening = false;
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = "de-DE";
+      recognition.interimResults = true;
+      recognition.continuous = false;
+
+      recognition.onstart = () => {
+        isListening = true;
+        micBtn.classList.add("listening");
+        micBtn.textContent = "🛑 Stoppen";
+      };
+
+      recognition.onresult = (event) => {
+        let transcript = "";
+        for (let i = 0; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        document.getElementById("promptInput").value = transcript;
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        micBtn.classList.remove("listening");
+        micBtn.textContent = "🎤 Einsprechen";
+      };
+
+      recognition.onerror = () => {
+        isListening = false;
+        micBtn.classList.remove("listening");
+        micBtn.textContent = "🎤 Einsprechen";
+      };
+    }
+
+    micBtn.addEventListener("click", () => {
+      if (!recognition) {
+        alert("Spracherkennung wird in diesem Browser nicht unterstützt. Nutze Google Chrome oder tippe deinen Text ein.");
+        return;
+      }
+      if (isListening) recognition.stop();
+      else recognition.start();
+    });
+
+    // Photo capture / upload
+    const cameraInput = document.getElementById("cameraInput");
+    document.getElementById("photoBtn").addEventListener("click", () => cameraInput.click());
+
+    cameraInput.addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = String(reader.result || "");
+        const commaIdx = result.indexOf(",");
+        attachedPhotoMime = file.type || "image/jpeg";
+        attachedPhotoBase64 = commaIdx >= 0 ? result.slice(commaIdx + 1) : result;
+        document.getElementById("photoThumb").src = result;
+        document.getElementById("photoPreview").style.display = "flex";
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById("clearPhotoBtn").addEventListener("click", () => {
+      attachedPhotoBase64 = null;
+      attachedPhotoMime = null;
+      cameraInput.value = "";
+      document.getElementById("photoPreview").style.display = "none";
+    });
+
+    // Gemini API Call
+    async function callGemini(promptText, includeImage = false) {
+      if (!state.apiKey) {
+        alert("Bitte zuerst oben rechts unter ⚙️ API & Ziel deinen Gemini API-Key speichern.");
+        return null;
+      }
+
+      const day = ensureDay();
+      const totals = day.meals.reduce((a, m) => ({
+        kcal: a.kcal + Number(m.kcal || 0),
+        protein: a.protein + Number(m.protein || 0),
+        carbs: a.carbs + Number(m.carbs || 0),
+        fat: a.fat + Number(m.fat || 0),
+        cost: a.cost + Number(m.cost || 0)
+      }), { kcal: 0, protein: 0, carbs: 0, fat: 0, cost: 0 });
+
+      const contextPayload = {
+        profile: state.profile,
+        todayTotals: totals,
+        budget: state.budget,
+        preferredStore: state.store,
+        pantry: state.pantry,
+        latestWeight: state.weights[0] || null
+      };
+
+      const parts = [
+        {
+          text: `Du bist ein praktischer, alltagstauglicher Ernährungs- und Einkaufsbegleiter auf Deutsch.
+Der Nutzer möchte keine starre Perfektion, sondern realistische Schätzungen (z. B. wenn Partner/Partnerin kocht oder Portionen geteilt werden), Ideen aus Vorräten/Fotos und Budget-/Einkaufspläne.
+
+Aktueller Kontext (JSON):
+${JSON.stringify(contextPayload)}
+
+Nutzeranfrage:
+${promptText || "Analysiere das Foto und gib hilfreiche, alltagstaugliche Vorschläge."}
+
+Antworte zuerst gut lesbar auf Deutsch. Hänge am Ende ZUSÄTZLICH einen JSON-Block in \`\`\`json ... \`\`\` an, damit die App optional Daten übernehmen kann. Struktur des JSON:
+{
+  "meals": [{"name": "...", "kcal": 500, "protein": 30, "carbs": 50, "fat": 15, "cost": 0, "approx": true}],
+  "shopping": [{"name": "...", "price": 1.99, "category": "..."}],
+  "pantry": ["..."]
+}
+Lasse Arrays leer ([]), wenn nichts Passendes vorgeschlagen wird.`
+        }
+      ];
+
+      if (includeImage && attachedPhotoBase64) {
+        parts.push({
+          inline_data: {
+            mime_type: attachedPhotoMime || "image/jpeg",
+            data: attachedPhotoBase64
+          }
+        });
+      }
+
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(state.model)}:generateContent?key=${encodeURIComponent(state.apiKey)}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts }]
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.error?.message || `HTTP ${res.status}`);
+      }
+
+      return data?.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("\n") || "";
+    }
+
+    function extractJsonBlock(text) {
+      const match = text.match(/```json\s*([\s\S]*?)```/i);
+      if (!match) return null;
+      try {
+        return JSON.parse(match[1]);
+      } catch {
+        return null;
+      }
+    }
+
+    document.getElementById("askAiBtn").addEventListener("click", async () => {
+      const prompt = document.getElementById("promptInput").value.trim();
+      const hasPhoto = Boolean(attachedPhotoBase64);
+      if (!prompt && !hasPhoto) {
+        alert("Bitte sprich etwas ein, schreibe eine Nachricht oder füge ein Foto hinzu.");
+        return;
+      }
+
+      const btn = document.getElementById("askAiBtn");
+      const outEl = document.getElementById("aiOutput");
+      btn.disabled = true;
+      btn.textContent = "⏳ Denkt nach...";
+      outEl.style.display = "block";
+      outEl.textContent = "Gemini erstellt deinen Vorschlag...";
+
+      try {
+        const reply = await callGemini(prompt, hasPhoto);
+        const cleanText = reply.replace(/```json\s*[\s\S]*?```/gi, "").trim();
+        outEl.textContent = cleanText || reply;
+
+        lastAiParsed = extractJsonBlock(reply);
+        const bar = document.getElementById("aiApplyBar");
+        const hasMeals = Array.isArray(lastAiParsed?.meals) && lastAiParsed.meals.length > 0;
+        const hasShop = Array.isArray(lastAiParsed?.shopping) && lastAiParsed.shopping.length > 0;
+        const hasPantry = Array.isArray(lastAiParsed?.pantry) && lastAiParsed.pantry.length > 0;
+
+        document.getElementById("applyMealsBtn").style
