@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -1083,4 +1082,182 @@ Lasse Arrays leer ([]), wenn nichts Passendes vorgeschlagen wird.`
         const hasShop = Array.isArray(lastAiParsed?.shopping) && lastAiParsed.shopping.length > 0;
         const hasPantry = Array.isArray(lastAiParsed?.pantry) && lastAiParsed.pantry.length > 0;
 
-        document.getElementById("applyMealsBtn").style
+        document.getElementById("applyMealsBtn").style.display = hasMeals ? "inline-flex" : "none";
+        document.getElementById("applyShoppingBtn").style.display = hasShop ? "inline-flex" : "none";
+        document.getElementById("applyPantryBtn").style.display = hasPantry ? "inline-flex" : "none";
+        bar.style.display = (hasMeals || hasShop || hasPantry) ? "flex" : "none";
+      } catch (err) {
+        outEl.textContent = `Fehler bei Gemini: ${err.message}`;
+        document.getElementById("aiApplyBar").style.display = "none";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "✨ Mit Gemini zaubern";
+      }
+    });
+
+    document.getElementById("applyMealsBtn").addEventListener("click", () => {
+      if (!lastAiParsed?.meals) return;
+      ensureDay().meals.push(...lastAiParsed.meals);
+      saveState();
+      renderAll();
+      alert("Mahlzeiten wurden in den heutigen Tag übernommen.");
+    });
+
+    document.getElementById("applyShoppingBtn").addEventListener("click", () => {
+      if (!lastAiParsed?.shopping) return;
+      lastAiParsed.shopping.forEach(item => {
+        state.shopping.push({
+          name: item.name,
+          price: Number(item.price || 0),
+          category: item.category || "",
+          checked: false
+        });
+      });
+      saveState();
+      renderAll();
+      alert("Einkaufsliste wurde ergänzt.");
+    });
+
+    document.getElementById("applyPantryBtn").addEventListener("click", () => {
+      if (!lastAiParsed?.pantry) return;
+      lastAiParsed.pantry.forEach(p => {
+        if (p && !state.pantry.includes(p)) state.pantry.push(p);
+      });
+      saveState();
+      renderAll();
+      alert("Vorrat wurde aktualisiert.");
+    });
+
+    // Budget & Shop & Pantry
+    document.getElementById("saveBudgetBtn").addEventListener("click", () => {
+      state.budget = Number(document.getElementById("budgetInput").value || 0);
+      state.store = document.getElementById("storeInput").value.trim();
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("clearCheckedShopBtn").addEventListener("click", () => {
+      state.shopping = state.shopping.filter(i => !i.checked);
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("addShopItemBtn").addEventListener("click", () => {
+      const name = document.getElementById("shopItemName").value.trim();
+      const price = Number(document.getElementById("shopItemPrice").value || 0);
+      if (!name) return;
+      state.shopping.push({ name, price, checked: false });
+      document.getElementById("shopItemName").value = "";
+      document.getElementById("shopItemPrice").value = "";
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("addPantryBtn").addEventListener("click", () => {
+      const val = document.getElementById("pantryInput").value.trim();
+      if (!val) return;
+      state.pantry.push(val);
+      document.getElementById("pantryInput").value = "";
+      saveState();
+      renderAll();
+    });
+
+    // Weight & Coach
+    document.getElementById("saveWeightBtn").addEventListener("click", () => {
+      const kg = Number(document.getElementById("weightInput").value);
+      const note = document.getElementById("weightNote").value.trim();
+      if (!kg) return;
+      state.weights.unshift({ date: todayKey(), kg, note });
+      document.getElementById("weightInput").value = "";
+      document.getElementById("weightNote").value = "";
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("coachBtn").addEventListener("click", async () => {
+      const outEl = document.getElementById("coachOutput");
+      outEl.textContent = "Ernährungsberatung wird erstellt...";
+      try {
+        const reply = await callGemini(
+          "Gib mir eine klare, praxisnahe Ernährungsberatung zu meinem Ziel, meinen Kalorien- und Makrovorgaben, groben Schätzungen im Alltag und meinem Gewichtstrend. Keine Fach-Sprachwüste, sondern konkrete Alltags-Habits."
+        );
+        const clean = reply.replace(/```json\s*[\s\S]*?```/gi, "").trim();
+        state.coachAdvice = clean;
+        saveState();
+        outEl.textContent = clean;
+      } catch (err) {
+        outEl.textContent = `Fehler: ${err.message}`;
+      }
+    });
+
+    // Settings Modal
+    const modal = document.getElementById("settingsModal");
+    document.getElementById("openSettingsBtn").addEventListener("click", () => {
+      const p = state.profile;
+      document.getElementById("apiKeyInput").value = state.apiKey;
+      document.getElementById("modelSelect").value = state.model;
+      document.getElementById("goalSelect").value = p.goal;
+      document.getElementById("targetWeightInput").value = p.targetWeight;
+      document.getElementById("ageInput").value = p.age;
+      document.getElementById("heightInput").value = p.height;
+      document.getElementById("sexSelect").value = p.sex;
+      document.getElementById("activitySelect").value = p.activity;
+      document.getElementById("targetKcal").value = p.targetKcal;
+      document.getElementById("targetProtein").value = p.targetProtein;
+      document.getElementById("targetCarbs").value = p.targetCarbs;
+      document.getElementById("targetFat").value = p.targetFat;
+      modal.classList.add("open");
+    });
+
+    document.getElementById("closeSettingsBtn").addEventListener("click", () => modal.classList.remove("open"));
+
+    document.getElementById("calcTargetsBtn").addEventListener("click", () => {
+      const age = Number(document.getElementById("ageInput").value || 35);
+      const height = Number(document.getElementById("heightInput").value || 180);
+      const sex = document.getElementById("sexSelect").value;
+      const activity = Number(document.getElementById("activitySelect").value || 1.55);
+      const goal = document.getElementById("goalSelect").value;
+      const currentWeight = Number(state.weights[0]?.kg || document.getElementById("targetWeightInput").value || 82);
+
+      const sexOffset = sex === "männlich" ? 5 : sex === "weiblich" ? -161 : -78;
+      const bmr = 10 * currentWeight + 6.25 * height - 5 * age + sexOffset;
+      let tdee = bmr * activity;
+
+      if (goal.includes("Abnehmen")) tdee -= 400;
+      else if (goal.includes("Muskelaufbau")) tdee += 250;
+
+      const kcal = Math.max(1300, Math.round(tdee / 50) * 50);
+      const protein = Math.round(currentWeight * 1.8);
+      const fat = Math.round((kcal * 0.28) / 9);
+      const carbs = Math.max(40, Math.round((kcal - protein * 4 - fat * 9) / 4));
+
+      document.getElementById("targetKcal").value = kcal;
+      document.getElementById("targetProtein").value = protein;
+      document.getElementById("targetCarbs").value = carbs;
+      document.getElementById("targetFat").value = fat;
+    });
+
+    document.getElementById("saveSettingsBtn").addEventListener("click", () => {
+      state.apiKey = document.getElementById("apiKeyInput").value.trim();
+      state.model = document.getElementById("modelSelect").value;
+      state.profile = {
+        goal: document.getElementById("goalSelect").value,
+        targetWeight: Number(document.getElementById("targetWeightInput").value || 78),
+        age: Number(document.getElementById("ageInput").value || 35),
+        height: Number(document.getElementById("heightInput").value || 180),
+        sex: document.getElementById("sexSelect").value,
+        activity: Number(document.getElementById("activitySelect").value || 1.55),
+        targetKcal: Number(document.getElementById("targetKcal").value || 2200),
+        targetProtein: Number(document.getElementById("targetProtein").value || 150),
+        targetCarbs: Number(document.getElementById("targetCarbs").value || 220),
+        targetFat: Number(document.getElementById("targetFat").value || 65)
+      };
+      saveState();
+      modal.classList.remove("open");
+      renderAll();
+    });
+
+    renderAll();
+  </script>
+</body>
+</html>
